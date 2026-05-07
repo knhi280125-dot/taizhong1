@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理資訊系統作業 - 台中交通與天氣查詢</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f8f9fa; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        h1 { text-align: center; color: #003366; }
+        h2 { color: #d9534f; border-left: 6px solid #d9534f; padding-left: 15px; margin-bottom: 20px; }
+        .weather-h2 { color: #0275d8; border-left: 6px solid #0275d8; }
+        input[type="text"] { padding: 12px; border: 1px solid #ccc; border-radius: 8px; width: 60%; font-size: 16px; }
+        button { padding: 12px 25px; background: #0275d8; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #01447e; }
+        .result-box { margin-top: 20px; padding: 20px; background: #e3f2fd; border-radius: 10px; border: 1px solid #90caf9; }
+        li { margin-bottom: 8px; font-size: 17px; }
+    </style>
+</head>
+<body>
+    <h1>管理資訊系統 (MIS) 專案展現</h1>
+    
+    <div class="card">
+        <h2>(1) 台中市十大易肇事路口統計</h2>
+        <p>以下為台中市交通事故發生頻率較高之重點路口：</p>
+        <ol>
+            {% for road in roads %}
+            <li>{{ road }}</li>
+            {% endfor %}
+        </ol>
+    </div>
 
+    <div class="card">
+        <h2 class="weather-h2">(2) 全台縣市即時天氣查詢</h2>
+        <form method="POST">
+            <input type="text" name="city" placeholder="請輸入縣市（例如：臺中市）" required>
+            <button type="submit">立即查詢</button>
+        </form>
+
+        {% if weather %}
+            <div class="result-box">
+                {% if weather.error %}
+                    <p style="color:red; font-weight:bold;">{{ weather.error }}</p>
+                {% else %}
+                    <p>📍 查詢地點：<b>{{ weather.city }}</b></p>
+                    <p>☁️ 天氣狀況：{{ weather.wx }}</p>
+                    <p>☔ 降雨機率：{{ weather.pop }} %</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <footer style="text-align: center; font-size: 12px; color: #888; margin-top: 20px;">
+        &copy; 2026 MIS Course Project - University Student in Taiwan
+    </footer>
+</body>
+</html>
